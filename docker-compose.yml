@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mongo:
+    container_name: "mongo"
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - /home/julian/data/mongo:/data/db
+    logging:
+      driver: none
+  restore:
+    image: mongo
+    volumes:
+      - /home/julian/Desktop/dump:/var/dump
+    links:
+      - mongo:mongo
+    command: mongorestore --host mongo:27017 --db node-login /var/dump/node-login
+    logging:
+      driver: none
